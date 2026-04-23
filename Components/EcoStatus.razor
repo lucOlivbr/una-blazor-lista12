@@ -1,0 +1,52 @@
+<div style="border: 1px solid #ccc; border-left: 4px solid @(total >= 100 ? "green" : "#0d6efd"); padding: 20px; width: 220px; border-radius: 8px;">
+    <h3>@Titulo</h3>
+    <p>Pontos por ação: <b>@Peso</b></p>
+    <p>Total acumulado:</p>
+
+    <span style="background-color: @(total >= 100 ? "green" : "#0d6efd"); color: white; padding: 4px 10px; border-radius: 4px;">
+        @total
+    </span>
+
+    <br /><br />
+
+<div style="background: #e0e0e0; border-radius: 8px; height: 12px; width: 100%;">
+    <div style="background: green; border-radius: 8px; height: 12px; width: @(Math.Min(total, 100))%;"></div>
+</div>
+
+    <br /><br />
+
+    <button @onclick="Registrar"
+            style="border: 2px solid green; 
+                   background: @(clicando ? "green" : "white"); 
+                   color: @(clicando ? "white" : "green"); 
+                   padding: 10px 20px; 
+                   border-radius: 8px; 
+                   cursor: pointer; 
+                   width: 100%;">
+        Registrar Atividade
+    </button>
+
+    @if (total >= 100)
+    {
+        <p style="color: green; font-weight: bold;">🌱 Meta batida! Você é um Herói do Planeta!</p>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string Titulo { get; set; } = "";
+
+    [Parameter]
+    public int Peso { get; set; }
+
+    private int total = 0;
+    private bool clicando = false;
+
+    private async Task Registrar()
+    {
+        total += Peso;
+        clicando = true;
+        await Task.Delay(100);
+        clicando = false;
+    }
+}
